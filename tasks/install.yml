@@ -1,24 +1,26 @@
-- name: Create path
+- name: Create packer path
   file:
     name: "{{ packer_path }}"
     state: directory
 
-- name: Downloading
+- name: Downloading packer
   get_url:
-    url: "https://dl.bintray.com/mitchellh/packer/packer_{{ packer_version }}_linux_{{ packer_arch }}.zip"
+    url: "{{ packer_base_url }}/{{ packer_version }}_{{ ansible_system.lower() }}_{{ packer_arch }}.zip"
     dest: "{{ packer_download_cache }}"
     sha256sum: "{{ packer_sha256sum }}"
 
-- name: Installing
+- name: Installing packer
   unarchive:
     src: "{{ packer_download_cache }}"
     dest: "{{ packer_path }}"
     mode: 0755
     copy: no
 
-- name: Writing info file
-  lineinfile:
-    dest: "{{ packer_info }}"
-    line: "{{ packer_version }}"
-    state: present
-    create: yes
+- name: Setting fact
+  set_fact:
+    packer_installed_version: "{{ packer_version }}"
+
+- name: Cleanup
+  file:
+    path: "{{ packer_path }}"
+    state: absent
