@@ -1,12 +1,12 @@
-Ansible role: packer [![Build Status](https://travis-ci.org/craneworks/ansible-packer.png)](https://travis-ci.org/craneworks/ansible-packer)
+Ansible role: packer
 =========
 
-An Ansible role that install Hashicorps Packer
+An Ansible role that installs Hashicorps Packer
 
 Requirements
 ------------
 
-On the host must `unzip` being installed.
+On the host must `unzip` being installed. If not installed it will be installed by the role.
 
 Role Variables
 --------------
@@ -21,7 +21,7 @@ The version which should be installed.
 
 The sha256sum of the downloaded zip file.
 
-  packer_base_url: https://releases.hashicorp.com/packer
+	packer_base_url: https://releases.hashicorp.com/packer
 
 Base URL from Hashicorps mirror.
 
