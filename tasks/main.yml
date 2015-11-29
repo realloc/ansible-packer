@@ -2,7 +2,7 @@
 # tasks file for packer
 # Uninstall/remove task
 - include: uninstall.yml
-  when: packer_installed_version < packer_version
+  when: not packer_installd_version or packer_installed_version < packer_version
   tags:
     - uninstall
 
