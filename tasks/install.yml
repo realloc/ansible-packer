@@ -1,3 +1,9 @@
+- name: Install unzip
+  apt:
+    name: unzip
+    update_cache: yes
+    cache_valid_time: 3600
+
 - name: Create packer path
   file:
     name: "{{ packer_path }}"
@@ -5,7 +11,7 @@
 
 - name: Downloading packer
   get_url:
-    url: "{{ packer_base_url }}/{{ packer_version }}_{{ ansible_system.lower() }}_{{ packer_arch }}.zip"
+    url: "{{ packer_base_url }}/{{ packer_version }}/packer_{{ packer_version }}_{{ ansible_system.lower() }}_{{ packer_arch }}.zip"
     dest: "{{ packer_download_cache }}"
     sha256sum: "{{ packer_sha256sum }}"
 
@@ -16,11 +22,7 @@
     mode: 0755
     copy: no
 
-- name: Setting fact
-  set_fact:
-    packer_installed_version: "{{ packer_version }}"
-
-- name: Cleanup
+- name: Cleanup temporary files
   file:
     path: "{{ packer_path }}"
     state: absent

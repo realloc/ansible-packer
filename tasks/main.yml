@@ -1,12 +1,24 @@
 ---
 # tasks file for packer
 # Uninstall/remove task
+- name: Check for previous installation
+  stat:
+    path: "{{ packer_path }}/packer"
+  register: installed
+
+- name: Check version of previous installation
+  shell: "{{ packer_path }}/packer --version"
+  register: packer_installed
+  ignore_errors: true
+  changed_when: false
+  when: installed.stat.exists
+
 - include: uninstall.yml
-  when: not packer_installed_version or packer_installed_version < packer_version
+  when: packer_installed is defined and
+        packer_installed.stdout != packer_version
   tags:
     - uninstall
 
-# Setup/install task
 - include: install.yml
   tags:
     - install
