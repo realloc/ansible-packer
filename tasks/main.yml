@@ -20,5 +20,8 @@
     - uninstall
 
 - include: install.yml
+  when: packer_installed is not defined or
+        (packer_installed is defined and
+        packer_installed.stdout != packer_version)
   tags:
     - install
